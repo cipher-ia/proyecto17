@@ -1,42 +1,65 @@
-$(document).ready(function() {
-    let solicitudes = [{
-        "id": 1, 
-        "nombre": "Juan",
-        "apellido": "Secreto"
-    }, {
-        "id": 2, 
-        "nombre": "Antonio",
-        "apellido": "Pero"
-    }, {
-        "id": 3, 
-        "nombre": "de la Encarnación",
-        "apellido": "No tanto"
-    }];
+$(function() {
 
+    $('#listar').on("click", function(){
 
-    for (i = 0 ; i < solicitudes.length; i++ ) {
-        $("#maestro").append(
-            $("<li>")
-                .text(solicitudes[i].nombre + ' ' + solicitudes[i].apellido)
-                .val(solicitudes[i])
-                .attr("id", "id" + solicitudes[i].id)
-        );
-    }
+        $.get("https://my-json-server.typicode.com/desarrollo-seguro/dato/solicitudes"),function(data) {
 
-
-
-    $("li").on("click", function(event) {
-        if ($("#detalle").is(':visible')) {
-            $("#detalle").hide();
-        } else {
-            $("#detalle").show();
-
-            let solicitud = $(this).attr("id");
-
-            $("#id").val(solicitud);
-            $("#nombre").val("Juan"  + solicitud);
-            $("#apellido").val("Secreto" + solicitud);            
+            $('#resListar').text("Ok");
         }
+
+        
         
     })
+
+
+    $('#leer').on("click", function () {
+        $.get("https://my-json-server.typicode.com/desarrollo-seguro/dato/solicitudes/1", function (data) {
+            $('#resLeer').text("Ok");
+        });
+    });
+
+$('#crear').on("click", function () {
+    $.post("https://my-json-server.typicode.com/desarrollo-seguro/dato/solicitudes", {
+        nombre: "Irving",
+        valor: 2910,
+        
+        function (data) {
+        $('#resCrear').text("Ok");
+
+    } 
+    });
 });
+
+
+$('#actualizar').on("click", function () {
+    $.ajax({
+        url: "https://my-json-server.typicode.com/desarrollo-seguro/dato/solicitudes/1",
+        type: "PUT",
+        data: JSON.stringify({ nombre: "Dato Actualizado", valor: 2991 }),
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            $('#resActualizar').text("Ok");
+        }
+    });
+});
+
+$('#borrar').on("click", function () {
+    $.ajax({
+        url: "https://my-json-server.typicode.com/desarrollo-seguro/dato/solicitudes/1",
+        type: "DELETE",
+        success: function () {
+            $('#resBorrar').text("Ok");
+        }
+    });
+});
+
+});
+
+
+
+
+
+
+
+
+
